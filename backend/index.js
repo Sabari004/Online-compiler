@@ -1,8 +1,10 @@
 const express = require("express");
+const cors = require("cors");
 const bodyParser = require("body-parser");
 const app = express();
 const { generateFile } = require("./generateFile");
 const { executeJava } = require("./executeJava");
+app.use(cors());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

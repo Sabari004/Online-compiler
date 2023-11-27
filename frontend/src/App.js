@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { useState } from "react";
+import "./App.css";
+// import axios from "axios";
+import axios from "axios";
 function App() {
+  const [code, setCode] = useState("");
+  const [output, setOutput] = useState("");
+  const handleSubmit = async () => {
+    const payload = {
+      language: "java",
+      code: code,
+    };
+    try {
+      const { data } = await axios.post("http://localhost:5000/run", payload);
+      setOutput(data.output);
+      // console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+    // console.log(output);
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Online Code Compiler</h1>
+      <textarea
+        rows="20"
+        cols="75"
+        value={code}
+        onChange={(e) => setCode(e.target.value)}
+      ></textarea>
+      <br></br>
+      <button onClick={handleSubmit}>Submit</button>
+      <p style={{ padding: "50px" }}>{output}</p>
     </div>
   );
 }
